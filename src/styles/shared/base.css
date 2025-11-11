@@ -1,0 +1,108 @@
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&display=swap');
+
+body, html {
+  font-family: 'JetBrains Mono', monospace;
+  background-color: #f9f6d7;
+}
+
+.page {
+  min-height: 100vh;
+  max-width: 60vw;
+  margin: auto;
+  margin-bottom: 5rem;
+  line-height: 1.5;
+}
+
+.content h1 {
+  font-size: 2rem;
+  font-weight: 600;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+.content h2 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-top: .75rem;
+  margin-bottom: 0.75rem;
+}
+
+.content h3 {
+  font-size: 1.2rem;
+  font-weight: 100;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+p {
+  font-size: 1rem;
+  font-weight: 200;
+  margin-top: 0.25rem;
+  margin-bottom: 0.25rem;
+}
+
+section {
+  margin-bottom: 1rem;
+}
+
+ul {
+  list-style-position: outside;
+  list-style-type: "- ";
+}
+
+a {
+  color: #d65d0e;
+  text-decoration: none;
+}
+
+a:hover {
+  color: #458588;
+  text-decoration: none;
+}
+
+hr {
+  color: #f9f6d7;
+  border-top: 1px dashed #999;
+}
+
+@media (max-width: 800px) {
+  .page {
+    max-width: 80vw;
+  }
+
+  .content h1 {
+    font-size: 1.5rem;
+  }
+
+  .content h2 {
+    font-size: 1.25rem;
+  }
+
+  .content h3 {
+    font-size: 1rem;
+  }
+
+  p {
+    font-size: 0.8rem;
+  }
+  
+  ul {
+    font-size: 0.8rem;
+    padding-left: 1rem;
+    margin-left: 0;
+  }
+
+  a {
+    font-size: inherit;
+  }
+  
+  a:hover {
+    font-size: inherit;
+  }
+  
+  hr {
+    font-size: 0.8rem;
+  }
+  
+  
+}

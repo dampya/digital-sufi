@@ -1,8 +1,12 @@
-<script setup lang="ts">
-  import Landing from './components/Landing.vue'
-</script>
+<style src="./styles/shared/base.css"></style>
 
 <template>
-  <Landing />
+  <Header />
+  <router-view />
+  <Footer />
 </template>
 
+<script setup lang="ts">
+  import Header from './components/Header.vue'
+  import Footer from './components/Footer.vue'
+</script>

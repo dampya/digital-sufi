@@ -1,0 +1,44 @@
+ul.menu {
+  display: flex;
+  list-style: none;
+}
+
+span {
+  font-size: 2rem;
+  color: #488588;
+  cursor: pointer;
+}
+
+
+ul.menu li {
+  color: #488588;
+  font-size: 1.2rem;
+  margin-top: 0.5rem;
+  list-style-type: none;
+  cursor: pointer;
+}
+
+a {
+  color: #458588;
+  text-decoration: none;
+}
+
+a:hover {
+  color: #d65d0e;
+  text-decoration: none;
+}
+
+hr {
+  width: 70vw;
+}
+
+@media (max-width: 800px) {
+  span {
+    font-size: 2rem;
+  }
+
+  ul.menu li {
+    font-size: 1.25rem;
+  }
+
+}
