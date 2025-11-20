@@ -25,128 +25,131 @@
         </ul>
         <p>Great video explanation by youtuber Rulies. <a href="https://www.youtube.com/watch?v=Gt2tYzM93h4" target="_blank">[Link]</a></p>
       </section>
-      <br />
-      <div class="game">
-        <div class="room-header">
-          <div>
-            <button @click="newGame"><h2>> Dungeon</h2></button>
-            <ul class="metrics">
-              <li>Health: {{ snapshot.health }}</li>
-              <li>Deck: {{ snapshot.deckCount }}</li>
-              <li>Discard: {{ snapshot.discardCount }}</li>
-              <li>Room: {{ snapshot.turnNumber }}</li>
-            </ul>
-          </div>
 
-          <div class="actions">
-            <button @click="avoidRoom" :disabled="snapshot.previousAvoided || snapshot.room.length < 4 || snapshot.gameOver">
-              Skip Room
-            </button>
-          </div>
+      <br />
+
+      <div class="game">
+        <div v-if="!gameStarted" class="start-game">
+          <h3 @click="startGame">[Start]</h3>
         </div>
 
-        <div class="room">
-          <div class="card-container" v-for="(c, idx) in snapshot.room" :key="c.id">
-            <div :class="['card', c.suit]">
-              <div class="card-value">{{ c.label }}</div>
-              <div class="card-suit">{{ suitSymbol(c.suit) }}</div>
+        <div v-else>
+          <div class="room-header">
+            <div>
+              <button @click="newGame"><h2>> Dungeon</h2></button>
+              <ul class="metrics">
+                <li>Health: {{ snapshot.health }}</li>
+                <li>Deck: {{ snapshot.deckCount }}</li>
+                <li>Discard: {{ snapshot.discardCount }}</li>
+                <li>Room: {{ snapshot.turnNumber }}</li>
+              </ul>
             </div>
 
             <div class="actions">
-              <template v-if="isMonster(c)">
-                <button @click="pick(idx, 'weapon')" :disabled="!canUseWeapon(c) || snapshot.gameOver || !hasWeapon">
-                  Weapon
-                </button>
-                <button @click="pick(idx, 'bare')" :disabled="snapshot.gameOver">
-                  Barehand
-                </button>
-              </template>
-
-              <template v-else-if="isWeapon(c)">
-                <button @click="pick(idx)" :disabled="snapshot.gameOver">Equip</button>
-              </template>
-
-              <template v-else-if="isPotion(c)">
-                <button @click="pick(idx)" :disabled="snapshot.gameOver">Heal</button>
-              </template>
-
-              <template v-else>
-                <button @click="pick(idx)" :disabled="snapshot.gameOver">Take</button>
-              </template>
+              <button @click="avoidRoom" :disabled="snapshot.previousAvoided || snapshot.room.length < 4 || snapshot.gameOver">
+                Skip Room
+              </button>
             </div>
           </div>
-        </div>
 
-        <div class="weapon-detail" v-if="snapshot.equipped">
-          <h3>Equipped Weapon</h3>
-          <div class="card">
-            <div class="card-value">{{ snapshot.equipped.card.label }}</div>
-            <div class="card-suit">♦</div>
+          <div class="room">
+            <div class="card-container" v-for="(c, idx) in snapshot.room" :key="c.id">
+              <div :class="['card', c.suit]">
+                <div class="card-value">{{ c.label }}</div>
+                <div class="card-suit">{{ suitSymbol(c.suit) }}</div>
+              </div>
+
+              <div class="actions">
+                <template v-if="isMonster(c)">
+                  <button @click="pick(idx, 'weapon')" :disabled="!canUseWeapon(c) || snapshot.gameOver || !hasWeapon">
+                    Weapon
+                  </button>
+                  <button @click="pick(idx, 'bare')" :disabled="snapshot.gameOver">
+                    Barehand
+                  </button>
+                </template>
+
+                <template v-else-if="isWeapon(c)">
+                  <button @click="pick(idx)" :disabled="snapshot.gameOver">Equip</button>
+                </template>
+
+                <template v-else-if="isPotion(c)">
+                  <button @click="pick(idx)" :disabled="snapshot.gameOver">Heal</button>
+                </template>
+
+                <template v-else>
+                  <button @click="pick(idx)" :disabled="snapshot.gameOver">Take</button>
+                </template>
+              </div>
+            </div>
           </div>
 
-          <div class="weapon-stack">
-            <div>Monsters on weapon: {{ snapshot.equipped.monsters.length }}</div>
-            <ol>
-              <li v-for="m in snapshot.equipped.monsters" :key="m.id">{{ m.label }} ({{ m.value }}) - {{ suitSymbol(m.suit) }}</li>
-            </ol>
-            <div v-if="snapshot.equipped.lastSlainValue !== null">Last slain value: {{ snapshot.equipped.lastSlainValue }}</div>
-          </div>
-        </div>
+          <div class="weapon-detail" v-if="snapshot.equipped">
+            <h3>Equipped Weapon</h3>
+            <div class="card">
+              <div class="card-value">{{ snapshot.equipped.card.label }}</div>
+              <div class="card-suit">♦</div>
+            </div>
 
-        <div class="gameover" v-if="snapshot.gameOver">
-          <h2>Game Over</h2>
-          <div v-if="snapshot.score !== undefined">
-            <div v-if="snapshot.score! < 0">You died. Score: {{ snapshot.score }}</div>
-            <div v-else>Dungeon cleared. Score: {{ snapshot.score }}</div>
+            <div class="weapon-stack">
+              <div>Monsters on weapon: {{ snapshot.equipped.monsters.length }}</div>
+              <ol>
+                <li v-for="m in snapshot.equipped.monsters" :key="m.id">{{ m.label }} ({{ m.value }}) - {{ suitSymbol(m.suit) }}</li>
+              </ol>
+              <div v-if="snapshot.equipped.lastSlainValue !== null">Last slain value: {{ snapshot.equipped.lastSlainValue }}</div>
+            </div>
+          </div>
+
+          <div class="gameover" v-if="snapshot.gameOver">
+            <h2>Game Over</h2>
+            <div v-if="snapshot.score !== undefined">
+              <div v-if="snapshot.score! < 0">You died. Score: {{ snapshot.score }}</div>
+              <div v-else>Dungeon cleared. Score: {{ snapshot.score }}</div>
+            </div>
+            <button @click="startGame">Restart</button>
           </div>
         </div>
       </div>
+
     </main>
   </div>
 </template>
 
 <script setup lang="ts">
-import { reactive, computed } from 'vue';
+import { reactive, computed, ref } from 'vue';
 import { Scoundrel, canUseWeaponOn, isMonster, isWeapon, isPotion } from './scoundrel';
 import type { Suit, Card } from './scoundrel';
 
 const game = new Scoundrel(true);
+const state = reactive({ snapshot: game.snapshot() });
 
-const state = reactive({
-  // we'll store a simple reference to snapshot
-  snapshot: game.snapshot()
-});
+const gameStarted = ref(false);
 
 function refresh() {
   state.snapshot = game.snapshot();
 }
 
-function newGame() {
+function startGame() {
+  gameStarted.value = true;
   game.reset(true);
   refresh();
 }
 
+function newGame() {
+  startGame();
+}
+
 function avoidRoom() {
-  if (game.avoidRoom()) {
-    refresh();
-  }
+  if (game.avoidRoom()) refresh();
 }
 
 function pick(index: number, method?: 'bare' | 'weapon') {
-  // method is used for monsters: 'weapon' or 'bare'
   const res = game.pickFromRoom(index, method ? { fightMethod: method } : undefined);
-  if (!res.ok) {
-    // show console warn; keep UI responsive
-    console.warn('Pick failed:', (res as any).reason);
-  }
+  if (!res.ok) console.warn('Pick failed:', (res as any).reason);
   refresh();
 }
 
-// some computed helpers for template
 const snapshot = computed(() => state.snapshot);
-
-// Use shared helpers from game logic (imported above)
-
 const hasWeapon = computed(() => !!snapshot.value.equipped);
 
 function canUseWeapon(c: Card) {
@@ -162,7 +165,6 @@ function suitSymbol(s: Suit) {
   }
 }
 
-// initial load
 refresh();
 </script>
 

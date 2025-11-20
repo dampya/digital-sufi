@@ -4,7 +4,7 @@
   <div class="page">
     <main class="content">
       <h1>Snake</h1>
-      <p>Eat apples to grow bigger. Control with arrow keys.</p>
+      <h3>Control with arrow keys and eat apples to grow bigger.</h3>
 
       <br />
       <br />
@@ -19,12 +19,12 @@
           <canvas ref="canvas" class="snake-canvas"></canvas>
 
           <div v-if="!gameStarted" class="snake-gameover">
-            <button @click="startGame">Start</button>
+            <h3 @click="startGame">[Start]</h3>
           </div>
 
           <div v-if="state.gameOver && gameStarted" class="snake-gameover">
             <h1>Score: {{ state.length }}</h1>
-            <button @click="startGame">Restart</button>
+            <h3 @click="startGame">[Restart]</h3>
           </div>
         </div>
       </div>

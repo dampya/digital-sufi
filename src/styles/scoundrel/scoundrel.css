@@ -85,6 +85,16 @@
   gap: 0.25rem;
 }
 
+.start-game h3 {
+  color: #d65d0e;
+  text-align: center;
+  cursor: pointer;
+}
+
+.start-game h3:hover {
+  color: #458588;
+}
+
 button {
   font-family: 'JetBrains Mono', monospace;
   font-size: 1rem;
@@ -126,9 +136,10 @@ button:disabled {
 }
 
 .game {
-  border: 1px dashed #999;
+  border-top: 1px dashed #999;
   border-radius: 8px;
   padding: 1rem;
+  height: 100%;
 }
 
 .gameover {
