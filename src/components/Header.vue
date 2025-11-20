@@ -20,6 +20,9 @@
       <li>
         <router-link to="/games/scoundrel">[_ scoundrel</router-link>
       </li>
+      <li>
+        <router-link to="/games/snake">[__ snake</router-link>
+      </li>
     </ul>
   </ul>
   <br v-if="isOpen">

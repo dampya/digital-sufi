@@ -23,6 +23,7 @@
           <li>Scoring on death: subtract the values of all remaining monsters in deck and room from your current health (result is negative score).</li>
           <li>Scoring on success: your life is your score, except if your life is 20 and your last card was a heart, add that potion’s value.</li>
         </ul>
+        <p>Great video explanation by youtuber Rulies. <a href="https://www.youtube.com/watch?v=Gt2tYzM93h4" target="_blank">[Link]</a></p>
       </section>
       <br />
       <div class="game">
