@@ -10,6 +10,11 @@ interface Segment {
   y: number;
 }
 
+interface Food {
+  x: number;
+  y: number;
+}
+
 export function initSnakeGame(
   canvas: HTMLCanvasElement,
   state: SnakeState,
@@ -21,10 +26,11 @@ export function initSnakeGame(
   let rows = 0;
 
   let snake: Segment[] = [];
-  let food = { x: 5, y: 5 };
+  let foods: Food[] = [];
   let direction = { x: 1, y: 0 };
   let loop: number | null = null;
   let speed = initialSpeed;
+  let foodSpawner: number | null = null;
 
   function resizeCanvas() {
     canvas.width = canvas.clientWidth;
@@ -39,13 +45,20 @@ export function initSnakeGame(
   function resetGame() {
     snake = [{ x: Math.floor(cols / 2), y: Math.floor(rows / 2) }];
     direction = { x: 1, y: 0 };
-    placeFood();
+    foods = [];
+
+    spawnFood();
+
     state.gameOver = false;
     updateHeadState();
     speed = initialSpeed;
 
     if (loop) cancelAnimationFrame(loop);
     loop = requestAnimationFrame(gameLoop);
+
+    // Restart food spawner
+    if (foodSpawner) clearInterval(foodSpawner);
+    foodSpawner = setInterval(spawnFood, 3000); // every 3 seconds
   }
 
   function updateHeadState() {
@@ -57,16 +70,20 @@ export function initSnakeGame(
     speed = Math.min(initialSpeed + Math.floor(snake.length / 5), 15);
   }
 
-  function placeFood() {
-    food.x = Math.floor(Math.random() * cols);
-    food.y = Math.floor(Math.random() * rows);
+  function spawnFood() {
+    if (foods.length >= 5) return; // max 5 food
+
+    foods.push({
+      x: Math.floor(Math.random() * cols),
+      y: Math.floor(Math.random() * rows),
+    });
   }
 
   function handleKey(e: KeyboardEvent) {
     const key = e.key.toLowerCase();
 
     if (["arrowup", "arrowdown", "arrowleft", "arrowright"].includes(key)) {
-      e.preventDefault();
+      e.preventDefault(); // Stop page scroll
     }
 
     if (key === "arrowup" && direction.y !== 1) direction = { x: 0, y: -1 };
@@ -104,13 +121,16 @@ export function initSnakeGame(
     }
 
     // Self collision
-    for (const seg of snake) if (seg.x === newHead.x && seg.y === newHead.y) return triggerGameOver();
+    for (const seg of snake)
+      if (seg.x === newHead.x && seg.y === newHead.y) return triggerGameOver();
 
     snake.unshift(newHead);
 
-    // Food
-    if (newHead.x === food.x && newHead.y === food.y) {
-      placeFood();
+    // Check if snake ate any existing food
+    const eatenIndex = foods.findIndex(f => f.x === newHead.x && f.y === newHead.y);
+
+    if (eatenIndex !== -1) {
+      foods.splice(eatenIndex, 1);
     } else {
       snake.pop();
     }
@@ -127,17 +147,20 @@ export function initSnakeGame(
 
     // Snake
     ctx.fillStyle = "#458588";
-    for (const seg of snake) ctx.fillRect(seg.x * tileSize, seg.y * tileSize, tileSize, tileSize);
+    for (const seg of snake)
+      ctx.fillRect(seg.x * tileSize, seg.y * tileSize, tileSize, tileSize);
 
     // Food
     ctx.fillStyle = "#d65d0e";
-    ctx.fillRect(food.x * tileSize, food.y * tileSize, tileSize, tileSize);
+    for (const f of foods)
+      ctx.fillRect(f.x * tileSize, f.y * tileSize, tileSize, tileSize);
   }
 
   resetGame();
 
   return () => {
     cancelAnimationFrame(loop!);
+    if (foodSpawner) clearInterval(foodSpawner);
     window.removeEventListener("keydown", handleKey);
     window.removeEventListener("resize", resizeCanvas);
   };

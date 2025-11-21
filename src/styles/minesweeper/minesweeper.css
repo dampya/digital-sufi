@@ -1,0 +1,44 @@
+.minesweeper-wrapper {
+  display: flex;
+  height: 100vh;
+  justify-content: center;
+}
+
+.minesweeper-game {
+  position: relative;
+}
+
+.minesweeper-status {
+  display: flex;
+  justify-content: space-between;
+}
+
+.minesweeper-canvas {
+  background-color: #f9f6d7;
+  display: block;
+}
+
+.minesweeper-canvas.game-over {
+  filter: blur(2px);
+}
+
+.minesweeper-gameover {
+  text-align: center;
+  z-index: 10;
+  color: #458588;
+}
+
+
+.minesweeper-gameover-wrapper {
+  margin-bottom: 2rem;
+}
+
+.minesweeper-gameover h3 {
+  color: #d65d0e;
+  cursor: pointer;
+}
+
+.minesweeper-gameover h3:hover {
+  color: #458588;
+}
+

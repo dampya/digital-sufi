@@ -3,34 +3,9 @@
 <template>
   <div class="page">
     <main class="content">
-
-      <section>
-        <h1>Scoundrel</h1>
-        <h3>A solitaire rogue-like card game by Zach Gage and Kurt Bieg.</h3>
-
-        <h2>Rules</h2>
-        <p>Fight through a dungeon built from a standard deck of cards, managing health, weapons, and monsters.</p>
-        <ul>
-          <li>Deck setup: remove Jokers, all red face cards (J/Q/K Diamonds/Hearts), and red Aces (A Diamonds/Hearts). Shuffle the rest.</li>
-          <li>Card roles: Clubs/Spades are Monsters (value 2–14), Diamonds are Weapons (value 2–10), Hearts are Potions (value 2–10).</li>
-          <li>Room: reveal until 4 face up. You may avoid (place all 4 on bottom). You cannot avoid twice in a row.</li>
-          <li>Turn: if you don’t avoid, you must resolve exactly 3 of the 4 cards, one by one, leaving 1 for next Room.</li>
-          <li>Weapons: binding; equipping discards the previous weapon and all monsters stacked on it.</li>
-          <li>Potions: heal up to 20; only one per turn. A second potion that turn is discarded with no effect.</li>
-          <li>Combat with weapon: stack the monster on the weapon. You take max(0, monster − weapon) damage.</li>
-          <li>Weapon restriction: after a weapon slays a monster of value X, it can only be used on monsters of value ≤ X next.</li>
-          <li>Game end: when health ≤ 0 or you reach the end of the dungeon.</li>
-          <li>Scoring on death: subtract the values of all remaining monsters in deck and room from your current health (result is negative score).</li>
-          <li>Scoring on success: your life is your score, except if your life is 20 and your last card was a heart, add that potion’s value.</li>
-        </ul>
-        <p>Great video explanation by youtuber Rulies. <a href="https://www.youtube.com/watch?v=Gt2tYzM93h4" target="_blank">[Link]</a></p>
-      </section>
-
-      <br />
-
       <div class="game">
         <div v-if="!gameStarted" class="start-game">
-          <h3 @click="startGame">[Start]</h3>
+          <h3>Loading...</h3>
         </div>
 
         <div v-else>
@@ -110,28 +85,28 @@
           </div>
         </div>
       </div>
-
     </main>
   </div>
 </template>
 
 <script setup lang="ts">
-import { reactive, computed, ref } from 'vue';
+import { reactive, computed, ref, onMounted, onUnmounted } from 'vue';
 import { Scoundrel, canUseWeaponOn, isMonster, isWeapon, isPotion } from './scoundrel';
 import type { Suit, Card } from './scoundrel';
 
-const game = new Scoundrel(true);
-const state = reactive({ snapshot: game.snapshot() });
-
+let game: Scoundrel | null = null;
+const state = reactive({ snapshot: null as any });
 const gameStarted = ref(false);
 
 function refresh() {
-  state.snapshot = game.snapshot();
+  if (game) state.snapshot = game.snapshot();
 }
 
 function startGame() {
+  if (game) game.reset(true);
+  else game = new Scoundrel(true);
+
   gameStarted.value = true;
-  game.reset(true);
   refresh();
 }
 
@@ -140,20 +115,22 @@ function newGame() {
 }
 
 function avoidRoom() {
+  if (!game) return;
   if (game.avoidRoom()) refresh();
 }
 
 function pick(index: number, method?: 'bare' | 'weapon') {
+  if (!game) return;
   const res = game.pickFromRoom(index, method ? { fightMethod: method } : undefined);
   if (!res.ok) console.warn('Pick failed:', (res as any).reason);
   refresh();
 }
 
-const snapshot = computed(() => state.snapshot);
-const hasWeapon = computed(() => !!snapshot.value.equipped);
+const snapshot = computed(() => state.snapshot || {});
+const hasWeapon = computed(() => !!snapshot.value?.equipped);
 
 function canUseWeapon(c: Card) {
-  return canUseWeaponOn(snapshot.value.equipped || null, c);
+  return canUseWeaponOn(snapshot.value?.equipped || null, c);
 }
 
 function suitSymbol(s: Suit) {
@@ -165,6 +142,10 @@ function suitSymbol(s: Suit) {
   }
 }
 
-refresh();
+onMounted(() => startGame());
+
+onUnmounted(() => {
+  game = null;
+});
 </script>
 

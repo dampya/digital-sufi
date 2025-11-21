@@ -3,29 +3,19 @@
 <template>
   <div class="page">
     <main class="content">
-      <h1>Snake</h1>
-      <h3>Control with arrow keys and eat apples to grow bigger.</h3>
-
-      <br />
-      <br />
       <div class="snake-wrapper">
         <div class="snake-game">
-          <div v-if="gameStarted" class="snake-status">
+          <div v-if="state.gameOver" class="snake-gameover">
+            <h1>Score: {{ state.length }}</h1>
+            <h3 @click="restartGame">[Restart]</h3>
+          </div>
+          <div v-if="gameStarted && !state.gameOver" class="snake-status">
             <span>&nbsp X: {{ state.headX }}</span>
             <span>Y: {{ state.headY }}</span>
             <span>Speed: {{ currentSpeed }}</span>
+            <span>Length: {{ state.length }}</span>
           </div>
-
           <canvas ref="canvas" class="snake-canvas"></canvas>
-
-          <div v-if="!gameStarted" class="snake-gameover">
-            <h3 @click="startGame">[Start]</h3>
-          </div>
-
-          <div v-if="state.gameOver && gameStarted" class="snake-gameover">
-            <h1>Score: {{ state.length }}</h1>
-            <h3 @click="startGame">[Restart]</h3>
-          </div>
         </div>
       </div>
     </main>
@@ -33,7 +23,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive, onUnmounted, watch } from "vue";
+import { ref, reactive, onMounted, onUnmounted, watch } from "vue";
 import { initSnakeGame, SnakeState } from "./snake";
 
 const canvas = ref<HTMLCanvasElement | null>(null);
@@ -50,6 +40,7 @@ const currentSpeed = ref(initialSpeed);
 
 let cleanup: (() => void) | null = null;
 
+// Automatically adjust speed based on length
 watch(
   () => state.length,
   (len) => {
@@ -65,6 +56,14 @@ function startGame() {
   if (cleanup) cleanup();
   cleanup = initSnakeGame(canvas.value!, state, currentSpeed.value);
 }
+
+function restartGame() {
+  startGame();
+}
+
+onMounted(() => {
+  startGame();
+});
 
 onUnmounted(() => {
   if (cleanup) cleanup();

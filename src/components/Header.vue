@@ -23,6 +23,9 @@
       <li>
         <router-link to="/games/snake">[__ snake</router-link>
       </li>
+      <li>
+        <router-link to="/games/minesweeper">[___ minesweeper</router-link>
+      </li>
     </ul>
   </ul>
   <br v-if="isOpen">
@@ -33,7 +36,7 @@ export default {
   name: "Header",
   data() {
     return {
-      isOpen: false,
+      isOpen: window.innerWidth >= 800,
     };
   },
   methods: {
@@ -41,6 +44,24 @@ export default {
       this.isOpen = !this.isOpen;
     },
   },
+  mounted() {
+    window.addEventListener("resize", this.handleResize);
+  },
+  beforeUnmount() {
+    window.removeEventListener("resize", this.handleResize);
+  },
+  methods: {
+    toggleMenu() {
+      this.isOpen = !this.isOpen;
+    },
+    handleResize() {
+      if (window.innerWidth < 800 && this.isOpen) {
+        this.isOpen = false;
+      } else if (window.innerWidth >= 800 && !this.isOpen) {
+        this.isOpen = true;
+      }
+    }
+  }
 };
 </script>
 
