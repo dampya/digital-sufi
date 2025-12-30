@@ -1,4 +1,4 @@
-<style scoped src="./../styles/shared/footer.css"></style>
+<style scoped src="../../styles/shared/footer.css"></style>
 
 <template>
   <hr />

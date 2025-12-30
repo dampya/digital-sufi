@@ -9,17 +9,27 @@
 }
 
 .minesweeper-status {
+  color: #1d2021;
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
+  padding: 0.5rem;
+  font-size: 1rem;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.minesweeper-status span {
+  margin-right: 1rem;
+}
+
+@media (max-width: 800px) {
+  .minesweeper-status {
+    font-size: 0.75rem;
+  }
 }
 
 .minesweeper-canvas {
-  background-color: #f9f6d7;
+  background-color: #fbf1c7;
   display: block;
-}
-
-.minesweeper-canvas.game-over {
-  filter: blur(2px);
 }
 
 .minesweeper-gameover {
@@ -30,7 +40,7 @@
 
 
 .minesweeper-gameover-wrapper {
-  margin-bottom: 2rem;
+  margin-top: 2rem;
 }
 
 .minesweeper-gameover h3 {

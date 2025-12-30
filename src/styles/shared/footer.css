@@ -4,14 +4,16 @@
 }
 
 .rights-reserved {
-  color: #a89984;
+  color: #ebdbb2;
 }
 
 .footer {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: #f9f6d7;
+  background: transparent;
+  position: relative;
+  z-index: 10;
 }
 
 hr {

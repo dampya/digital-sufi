@@ -1,10 +1,11 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import Main from './../components/Main.vue'
-import Games from './../components/Games.vue'
-import Legal from './../components/Legal.vue'
-import Scoundrel from './../components/scoundrel/Scoundrel.vue'
-import Snake from './../components/snake/Snake.vue'
-import Minesweeper from './../components/minesweeper/Minesweeper.vue'
+import Main from './../components/main/Main.vue'
+import Games from '../components/games/Games.vue'
+import Legal from './../components/main/Legal.vue'
+import Scoundrel from './../components/games/scoundrel/Scoundrel.vue'
+import Snake from './../components/games/snake/Snake.vue'
+import Minesweeper from './../components/games/minesweeper/Minesweeper.vue'
+import Whiteboard from './../components/tools/whiteboard/Whiteboard.vue'
 
 const routes= [
   { path: '/', name: 'main', component: Main },
@@ -13,6 +14,7 @@ const routes= [
   { path: '/games/scoundrel', name: 'scoundrel', component: Scoundrel},
   { path: '/games/snake', name: 'snake', component: Snake },
   { path: '/games/minesweeper', name: 'minesweeper', component: Minesweeper},
+  { path: '/tools/whiteboard', name: 'whiteboard', component: Whiteboard},
 ]
 
 const router = createRouter({

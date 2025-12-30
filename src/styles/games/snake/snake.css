@@ -1,11 +1,13 @@
 .snake-wrapper {
+  display: flex;
+  justify-content: center;
   height: 100vh;
 }
 
 .snake-game {
-  background-color: #f9f6d7;
+  background-color: #fbf1c7;
   border: 1px dashed #999;
-  width: 80rem;
+  width: 50rem;
   height: 50rem;
   position: relative;
   overflow: hidden;
@@ -27,6 +29,7 @@
 }
 
 .snake-status {
+  color: #1d2021;
   position: absolute;
   top: 0;
   left: 0;
@@ -52,7 +55,7 @@
 }
 
 .snake-gameover h1 {
-  color: #d65d0e;
+  color: #458588;
   font-size: 2rem;
 }
 

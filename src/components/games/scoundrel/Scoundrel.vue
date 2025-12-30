@@ -1,4 +1,4 @@
-<style scoped src="./../../styles/scoundrel/scoundrel.css"></style>
+<style scoped src="../../../styles/games/scoundrel/scoundrel.css"></style>
 
 <template>
   <div class="page">
@@ -7,7 +7,6 @@
         <div v-if="!gameStarted" class="start-game">
           <h3>Loading...</h3>
         </div>
-
         <div v-else>
           <div class="room-header">
             <div>

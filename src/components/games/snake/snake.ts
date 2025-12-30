@@ -33,10 +33,16 @@ export function initSnakeGame(
   let foodSpawner: number | null = null;
 
   function resizeCanvas() {
-    canvas.width = canvas.clientWidth;
-    canvas.height = canvas.clientHeight;
-    cols = Math.floor(canvas.width / tileSize);
-    rows = Math.floor(canvas.height / tileSize);
+    const clientWidth = canvas.clientWidth;
+    const clientHeight = canvas.clientHeight;
+    
+    // Calculate grid dimensions
+    cols = Math.floor(clientWidth / tileSize);
+    rows = Math.floor(clientHeight / tileSize);
+    
+    // Set canvas size to exactly fit the grid (no leftover pixels)
+    canvas.width = cols * tileSize;
+    canvas.height = rows * tileSize;
   }
 
   window.addEventListener("resize", resizeCanvas);
@@ -62,8 +68,8 @@ export function initSnakeGame(
   }
 
   function updateHeadState() {
-    state.headX = snake[0].x;
-    state.headY = snake[0].y;
+    state.headX = snake[0]?.x ?? 0;
+    state.headY = snake[0]?.y ?? 0;
     state.length = snake.length;
 
     // Update speed every 5 length
@@ -113,7 +119,7 @@ export function initSnakeGame(
 
   function update() {
     const head = snake[0];
-    const newHead = { x: head.x + direction.x, y: head.y + direction.y };
+    const newHead = { x: head!.x + direction.x, y: head!.y + direction.y };
 
     // Wall collision
     if (newHead.x < 0 || newHead.x >= cols || newHead.y < 0 || newHead.y >= rows) {

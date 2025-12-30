@@ -1,15 +1,18 @@
-<style scoped src="../../styles/snake/snake.css"></style>
+<style scoped src="../../../styles/games/snake/snake.css"></style>
 
 <template>
   <div class="page">
     <main class="content">
       <div class="snake-wrapper">
         <div class="snake-game">
+          <div v-if="!gameStarted && !state.gameOver" class="snake-gameover">
+            <h3 @click="startGame">[Start]</h3>
+          </div>
           <div v-if="state.gameOver" class="snake-gameover">
             <h1>Score: {{ state.length }}</h1>
             <h3 @click="restartGame">[Restart]</h3>
           </div>
-          <div v-if="gameStarted && !state.gameOver" class="snake-status">
+          <div v-if="gameStarted" class="snake-status">
             <span>&nbsp X: {{ state.headX }}</span>
             <span>Y: {{ state.headY }}</span>
             <span>Speed: {{ currentSpeed }}</span>
@@ -23,8 +26,9 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive, onMounted, onUnmounted, watch } from "vue";
-import { initSnakeGame, SnakeState } from "./snake";
+import { ref, reactive, watch } from "vue";
+import { initSnakeGame } from "./snake";
+import type { SnakeState } from "./snake";
 
 const canvas = ref<HTMLCanvasElement | null>(null);
 const state = reactive<SnakeState>({
@@ -60,13 +64,5 @@ function startGame() {
 function restartGame() {
   startGame();
 }
-
-onMounted(() => {
-  startGame();
-});
-
-onUnmounted(() => {
-  if (cleanup) cleanup();
-});
 </script>
 

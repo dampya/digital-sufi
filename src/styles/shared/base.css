@@ -2,7 +2,7 @@
 
 body, html {
   font-family: 'JetBrains Mono', monospace;
-  background-color: #f9f6d7;
+  background-color: #fbf1c7;
 }
 
 .page {
@@ -14,31 +14,27 @@ body, html {
 }
 
 .content h1 {
-  font-size: 2rem;
+  color: #458588;
+  font-size: 2.5rem;
   font-weight: 600;
-  margin-top: 1rem;
-  margin-bottom: 1rem;
 }
 
 .content h2 {
-  font-size: 1.5rem;
+  color: #1d2021;
+  font-size: 1.4rem;
   font-weight: 600;
-  margin-top: .75rem;
-  margin-bottom: 0.75rem;
 }
 
 .content h3 {
+  color: #1d2021;
   font-size: 1.2rem;
   font-weight: 100;
-  margin-top: 0.5rem;
-  margin-bottom: 0.5rem;
 }
 
 p {
+  color: #1d2021;
   font-size: 1rem;
   font-weight: 200;
-  margin-top: 0.25rem;
-  margin-bottom: 0.25rem;
 }
 
 section {
@@ -46,6 +42,7 @@ section {
 }
 
 ul {
+  color: #1d2021;
   list-style-position: outside;
   list-style-type: "- ";
 }
@@ -61,13 +58,15 @@ a:hover {
 }
 
 hr {
-  color: #f9f6d7;
+  color: #fbf1c7;
   border-top: 1px dashed #999;
 }
 
 @media (max-width: 800px) {
   .page {
-    max-width: 80vw;
+    max-width: 90vw;
+    margin-left: 1rem;
+    margin-right: 1rem;
   }
 
   .content h1 {
