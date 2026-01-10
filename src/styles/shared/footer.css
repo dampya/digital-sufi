@@ -17,11 +17,8 @@
 }
 
 hr {
+  color: #fbf1c7;
+  border-top: 1px dashed #999;
   width: 70vw;
 }
 
-@media (max-width: 800px) {
-  hr {
-    width: 90vw;
-  }
-}

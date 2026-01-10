@@ -1,6 +1,6 @@
 .tree-container {
   margin-top: 2rem;
-  margin-left: 3rem;
+  margin-left: calc((100vw - 60vw) / 2);
   margin-bottom: 5rem;
   position: relative;
   z-index: 10;
@@ -85,10 +85,6 @@
 .tree-leaf a:hover {
   color: #458588;
   text-decoration: none;
-}
-
-hr {
-  width: 70vw;
 }
 
 .underscore {
